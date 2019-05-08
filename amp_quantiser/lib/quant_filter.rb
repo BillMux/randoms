@@ -8,17 +8,13 @@ class QuantFilter
   def filter
     output = []
     @freqs.each do |freq|
-      output << case freq % @steps
-      when 0
-        freq
-      when 4
-        freq + 1
-      when 3
-        freq + 2
-      when 2
-        freq - 2
-      when 1
-        freq - 1
+      mod = freq % @steps
+      half = @steps / 2
+
+      output << if mod > half
+        freq + (@steps - mod)
+      elsif mod <= half
+        freq - mod
       end
     end
     output
